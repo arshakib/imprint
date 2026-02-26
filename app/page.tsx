@@ -474,25 +474,34 @@ export default function ImprintPortfolio() {
                   { img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&q=80", rot: 0, yOff: 0, label: "Labels" },
                   { img: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=300&q=80", rot: 7, yOff: 16, label: "Leather" },
                 ].map((item, i) => (
-                  <motion.div key={i}
-                    animate={{ y: [0, -10, 0] }}
-                    transition={{ duration: 3 + i, delay: i * 0.5, repeat: Infinity, ease: "easeInOut" }}
-                    style={{ transform: `rotate(${item.rot}deg) translateY(${item.yOff}px)` }}
-                    className="relative flex-shrink-0 rounded-xl overflow-hidden shadow-2xl border border-slate-700/50"
-                    style2={{ width: "clamp(80px, 20vw, 140px)", height: "clamp(110px, 28vw, 192px)" } as any}>
-                    {/* use inline style trick for truly fluid sizes */}
-                    <div style={{
-                      width: "clamp(80px, 20vw, 140px)",
-                      height: "clamp(110px, 28vw, 192px)",
-                      position: "relative"
-                    }}>
-                      <img src={item.img} alt={item.label} className="w-full h-full object-cover" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent" />
-                      <div className="absolute bottom-2 left-0 right-0 text-center text-[10px] xs:text-xs text-amber-300 font-semibold tracking-wide">
-                        {item.label}
-                      </div>
-                    </div>
-                  </motion.div>
+                <motion.div
+  key={i}
+  animate={{ y: [0, -10, 0] }}
+  transition={{
+    duration: 3 + i,
+    delay: i * 0.5,
+    repeat: Infinity,
+    ease: "easeInOut"
+  }}
+  style={{
+    transform: `rotate(${item.rot}deg) translateY(${item.yOff}px)`,
+    width: "clamp(80px, 20vw, 140px)",
+    height: "clamp(110px, 28vw, 192px)"
+  }}
+  className="relative flex-shrink-0 rounded-xl overflow-hidden shadow-2xl border border-slate-700/50"
+>
+  <img
+    src={item.img}
+    alt={item.label}
+    className="w-full h-full object-cover"
+  />
+
+  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent" />
+
+  <div className="absolute bottom-2 left-0 right-0 text-center text-[10px] xs:text-xs text-amber-300 font-semibold tracking-wide">
+    {item.label}
+  </div>
+</motion.div>
                 ))}
               </div>
             </motion.div>
