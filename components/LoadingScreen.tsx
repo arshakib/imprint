@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
@@ -179,6 +180,14 @@ export default function LoadingScreen({ onComplete }: LoaderProps) {
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState<"loading" | "complete" | "exiting">("loading");
   const [displayNum, setDisplayNum] = useState(0);
+  // Safe viewport width — default 1024, updated client-side only (avoids SSR window error)
+  const [vw, setVw] = useState(1024);
+  useEffect(() => {
+    setVw(window.innerWidth);
+    const onResize = () => setVw(window.innerWidth);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   // Smooth displayed number
   const motionProgress = useMotionValue(0);
@@ -304,9 +313,9 @@ export default function LoadingScreen({ onComplete }: LoaderProps) {
 
             {/* ── Orbit rings ── */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
-              <OrbitRing radius={Math.min(180, window?.innerWidth * 0.28 || 180)} duration={12} delay={0} color="#C9A84C" dotCount={12} />
-              <OrbitRing radius={Math.min(240, window?.innerWidth * 0.36 || 240)} duration={20} delay={2} color="#C9A84C" dotCount={18} />
-              <OrbitRing radius={Math.min(130, window?.innerWidth * 0.20 || 130)} duration={8} delay={1} color="#FFE082" dotCount={8} />
+              <OrbitRing radius={Math.min(180, vw * 0.28)} duration={12} delay={0} color="#C9A84C" dotCount={12} />
+              <OrbitRing radius={Math.min(240, vw * 0.36)} duration={20} delay={2} color="#C9A84C" dotCount={18} />
+              <OrbitRing radius={Math.min(130, vw * 0.20)} duration={8} delay={1} color="#FFE082" dotCount={8} />
             </div>
 
             {/* ── Main content ── */}
